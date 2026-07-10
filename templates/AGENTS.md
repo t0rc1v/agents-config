@@ -20,6 +20,12 @@ This document governs every change in this repository. Prefer the closest nested
 - Treat Server Actions and Route Handlers as public mutation boundaries: authenticate, authorize the specific resource/action, validate input, mutate, revalidate affected data, and define idempotency where retries are possible.
 - Keep database access server-only, use transactions for related writes, avoid N+1 queries, and make schema/data migrations reviewable and reversible when practical.
 
+## Common integrations
+
+- This configuration is vendor-neutral. Apply the guidance in `docs/common-integrations.md` only when the relevant package is already installed or the project explicitly adopts it. Do not add a provider, its environment variables, or its billing configuration by assumption.
+- Before changing an integration, inspect its installed version, existing configuration, and the provider's official documentation. Preserve established project conventions and use the narrowest integration surface that meets the requirement.
+- Treat authentication, billing, database access, AI tools, queues, email, uploads, caches, and webhooks as server-side trust boundaries. Validate input, authorize the action, protect secrets, and make externally retried side effects idempotent.
+
 ## TypeScript and UI
 
 - Keep TypeScript strict. Model domain data explicitly; do not use `any`, unsafe casts, ignored compiler errors, or non-null assertions to suppress uncertainty.

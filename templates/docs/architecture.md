@@ -14,6 +14,7 @@ Keep this document current as the application becomes non-trivial.
 - **Data:** source of truth, schema/migration location, caching model, retention, and backup/restore ownership.
 - **Authentication:** session model, authorization policy location, and tenant isolation approach.
 - **Background work:** queues, schedules, idempotency strategy, and observability.
+- **Optional integrations:** record adopted providers and their purpose, ownership, trust boundary, environment-variable names, webhook/signature requirements, retry behavior, and outage strategy. See `docs/common-integrations.md` for conditional implementation guidance.
 
 ## Operational readiness
 
