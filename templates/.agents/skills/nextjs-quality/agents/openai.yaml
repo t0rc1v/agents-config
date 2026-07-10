@@ -1,0 +1,4 @@
+interface:
+  display_name: "Next.js Quality"
+  short_description: "Verify production-ready Next.js work."
+  default_prompt: "Use $nextjs-quality to test and review this Next.js change before handoff."

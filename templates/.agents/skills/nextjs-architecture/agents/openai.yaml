@@ -1,0 +1,4 @@
+interface:
+  display_name: "Next.js Architecture"
+  short_description: "Build robust App Router applications."
+  default_prompt: "Use $nextjs-architecture to implement this Next.js feature with production-ready boundaries."

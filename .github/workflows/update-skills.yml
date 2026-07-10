@@ -1,0 +1,39 @@
+name: Update curated skills
+
+on:
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Refresh locked upstream skills
+        run: npx skills update --project --yes
+      - name: Mirror reviewed skills into distributable templates
+        run: npm run sync:skills
+      - name: Verify package
+        run: npm run check && npm test
+      - name: Open an update pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/skill-updates
+          delete-branch: true
+          commit-message: "chore(skills): refresh curated snapshots"
+          title: "chore(skills): refresh curated snapshots"
+          body: |
+            Automated weekly refresh of skills tracked in `skills-lock.json`.
+
+            Review every changed skill before merging. This workflow never merges the pull request.
+          labels: dependencies, skills

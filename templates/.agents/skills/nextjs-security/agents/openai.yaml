@@ -1,0 +1,4 @@
+interface:
+  display_name: "Next.js Security"
+  short_description: "Secure Next.js application changes."
+  default_prompt: "Use $nextjs-security to design or review this Next.js feature for production security."

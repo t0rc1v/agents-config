@@ -1,0 +1,33 @@
+{
+  "name": "nextjs-agents-config",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Portable production-grade AI agent configuration for Next.js applications.",
+  "license": "MIT",
+  "type": "commonjs",
+  "bin": {
+    "agents-config": "bin/agents-config.cjs"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "scripts",
+    "templates",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check bin/agents-config.cjs && node --check lib/installer.cjs && npm run check:skills",
+    "check:skills": "node scripts/sync-managed-skills.cjs --check",
+    "sync:skills": "node scripts/sync-managed-skills.cjs",
+    "prepack": "npm run check && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t0rc1v/agents-config.git"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

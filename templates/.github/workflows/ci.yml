@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Install dependencies
+        shell: bash
+        run: |
+          if [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile;
+          elif [ -f yarn.lock ]; then yarn install --immutable;
+          elif [ -f bun.lockb ] || [ -f bun.lock ]; then bun install --frozen-lockfile;
+          elif [ -f package-lock.json ]; then npm ci;
+          else npm install; fi
+      - name: Lint, type check, tests, and build
+        shell: bash
+        run: |
+          node -e "const p=require('./package.json'); const required=['lint','typecheck','test','build']; const missing=required.filter((name)=>!p.scripts?.[name]); if(missing.length) { console.error('Missing required scripts: '+missing.join(', ')); process.exit(1) }"
+          if [ -f pnpm-lock.yaml ]; then pnpm lint && pnpm typecheck && pnpm test && pnpm build;
+          elif [ -f yarn.lock ]; then yarn lint && yarn typecheck && yarn test && yarn build;
+          elif [ -f bun.lockb ] || [ -f bun.lock ]; then bun run lint && bun run typecheck && bun run build;
+          else npm run lint && npm run typecheck && npm test && npm run build; fi
